@@ -12,15 +12,13 @@
           id=""
           class="fadeIn p-0 shadow border rounded bg-white text-center col-8 col-md-6 col-lg-4 align-self-center"
         >
-          <!-- Tabs Titles -->
-
           <!-- Icon -->
           <div class="fadeIn first">
             <img src="@/assets/p1.gif" id="icon" alt="logo sunny" />
           </div>
 
           <!-- Login Form -->
-          <v-form @submit.prevent="login" class="container">
+          <v-form class="container">
             <v-text-field
               prepend-icon="mdi-mail"
               type="email"
@@ -28,7 +26,7 @@
               class="fadeIn second"
               name="email"
               placeholder="Correo electrónico"
-               :rules="emailRules"
+              :rules="emailRules"
               v-model="usuario.email"
             />
 
@@ -54,6 +52,7 @@
               class="boton btn-lg btn-block border-0 text-center text-white inline-block w-100 p-3 mb-3"
               style="background-color: #fcbf00"
               :loading="loading"
+              @click="login"
             >
               Ingresar
             </v-btn>
@@ -69,7 +68,7 @@
             dense
             dismissible
             elevation="24"
-            icon="person"
+            icon="mdi-lock-open-outline"
             prominent
             type="error"
             v-if="usuario.error"
@@ -86,7 +85,8 @@
 // @ is an alias to /src
 
 import ImageBackground from "@/components/ImageBackground";
-
+import axios from "axios";
+import swal from "sweetalert";
 
 export default {
   name: "Home",
@@ -96,23 +96,53 @@ export default {
 
   data: function () {
     return {
-         show3: false,
-    show4: false,
+      loader: null,
+      loading: false,
+      show3: false,
+      show4: false,
       usuario: {
         email: "",
         password: "",
         error: false,
         error_msg: "",
       },
-       emailRules: [
-      (v) =>
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-        "Ingresa un correo valido",
-    ],
+      emailRules: [
+        (v) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "Ingresa un correo valido",
+      ],
     };
   },
 
-  methods: {},
+  methods: {
+    login() {
+      axios
+        .post("http://127.0.0.1:8000/api/login", {
+          email: this.usuario.email,
+          password: this.usuario.password,
+        })
+        .then((response) => {
+          if (response.data.status == "ok") {
+            localStorage.user = response.data.user;
+            this.$router.push("mapa");
+          } else {
+            this.usuario.error = true;
+            this.usuario.error_msg = response.data.message;
+          }
+        })
+        .catch((error) => {
+          let er = error.response.data.errors;
+
+          let mensaje = "Error no identificado";
+          if (er.email) {
+            mensaje = er.email[0];
+          } else if (er.password) {
+            mensaje = er.password[0];
+          }
+          swal("Error", mensaje, "error");
+        });
+    },
+  },
 };
 </script>
 
