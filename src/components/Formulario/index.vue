@@ -65,7 +65,7 @@
               >
                 crear mascota
               </v-btn>
-              {{ raza }}
+             
             </form>
 
             <v-snackbar
@@ -76,6 +76,7 @@
               {{ textSnackbar }}
             </v-snackbar>
             <v-snackbar v-model="error" :multi-line="multiLine" color="red">
+                  {{ textError }}
               <template v-slot:action="{ attrs }">
                 <v-btn color="white" text v-bind="attrs" @click="error = false">
                   Close
@@ -95,12 +96,13 @@ export default {
   name: "Mascota",
   data() {
     return {
+       error: false,
       nombremascota: "",
       fechanacimiento: "",
       nombrepropetario: "",
       descripcion: "",
 
-      textError: "No se pudo crear el vehiculo",
+      textError: "",
       textSnackbar: "Datos guardados",
 
       raza: [
