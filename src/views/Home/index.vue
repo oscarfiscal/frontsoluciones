@@ -124,7 +124,7 @@ export default {
         .then((response) => {
           if (response.data.status == "ok") {
             localStorage.user = response.data.user;
-            this.$router.push("mapa");
+            this.$router.push("mascota");
           } else {
             this.usuario.error = true;
             this.usuario.error_msg = response.data.message;
