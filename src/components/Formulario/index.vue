@@ -133,7 +133,7 @@ export default {
       formData.append("fotomascota", photo.files[0]);
 
       axios
-        .post("http://127.0.0.1:8000/api/mascota", formData)
+        .post("https://warm-chamber-23137.herokuapp.com/api/mascota", formData)
         .then((response) => {
           console.log(response);
           this.textSnackbar = "Se creo correctamente";

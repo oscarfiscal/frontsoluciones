@@ -117,7 +117,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("http://127.0.0.1:8000/api/login", {
+        .post("https://warm-chamber-23137.herokuapp.com/api/login", {
           email: this.usuario.email,
           password: this.usuario.password,
         })
