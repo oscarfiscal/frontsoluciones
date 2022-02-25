@@ -23,7 +23,7 @@
     <v-spacer></v-spacer>
 
     <v-btn
-      href="/"
+        @click="home"
       target="_blank"
       text
     >
@@ -53,6 +53,11 @@ export default {
     Formulario,
 
    
+  },
+  methods: {
+    home() {
+      this.$router.push("/");
+    },
   },
 };
 </script>
