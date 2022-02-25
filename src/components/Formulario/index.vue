@@ -13,17 +13,18 @@
                 label="Nombre mascota"
                 prepend-icon="mdi-ballot"
                 type="text"
+                 :rules="[(v) => !!v || 'Campo Obligatorio *']"
               ></v-text-field>
               <v-select
-                v-model="raza"
+                v-model="raza2"
                 :items="raza"
-                item-text="state"
-                item-value="abbr"
+                item-value="raza"
                 prepend-icon="mdi-dog"
                 label="raza"
                 persistent-hint
                 return-object
                 single-line
+                 :rules="[(v) => !!v || 'Campo Obligatorio *']"
               ></v-select>
               <v-text-field
                 v-model="fechanacimiento"
@@ -31,6 +32,7 @@
                 label="fecha de nacimiento"
                 prepend-icon="mdi-ballot"
                 type="date"
+                 :rules="[(v) => !!v || 'Campo Obligatorio *']"
               ></v-text-field>
 
               <v-text-field
@@ -39,6 +41,7 @@
                 label="Nombre propetario"
                 prepend-icon="mdi-account-circle"
                 type="Text"
+                 :rules="[(v) => !!v || 'Campo Obligatorio *']"
               ></v-text-field>
               <v-text-field
                 v-model="descripcion"
@@ -46,6 +49,7 @@
                 label="descripcion"
                 prepend-icon="mdi-order-bool-descending-variant"
                 type="Text"
+                 :rules="[(v) => !!v || 'Campo Obligatorio *']"
               ></v-text-field>
               <v-file-input
                 id="photo_mascota"
@@ -101,6 +105,7 @@ export default {
       fechanacimiento: "",
       nombrepropetario: "",
       descripcion: "",
+      raza2: "",
 
       textError: "",
       textSnackbar: "Datos guardados",
@@ -126,7 +131,7 @@ export default {
       const formData = new FormData();
       let photo = document.querySelector("#photo_mascota");
       formData.append("nombre_mascota", this.nombremascota);
-      formData.append("raza", this.raza);
+      formData.append("raza", this.raza2);
       formData.append("fechanacimiento", this.fechanacimiento);
       formData.append("nombre_dueno", this.nombrepropetario);
       formData.append("descripcion", this.descripcion);
